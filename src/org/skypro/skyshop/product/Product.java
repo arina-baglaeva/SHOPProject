@@ -1,21 +1,15 @@
 package org.skypro.skyshop.product;
 
-public class Product {
+import java.util.Objects;
+
+public abstract class Product {
     private String nameOfProduct;
-    private int cost;
 
-    public Product(String nameOfProduct, int cost) {
+    public Product(String nameOfProduct) {
         this.nameOfProduct = nameOfProduct;
-        this.cost = cost;
     }
 
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int new_cost) {
-        this.cost = new_cost;
-    }
+    public abstract int getPrice();
 
     public String getNameOfProduct() {
         return nameOfProduct;
@@ -23,5 +17,15 @@ public class Product {
 
     public void setNameOfProduct(String nameOfProduct) {
         this.nameOfProduct = nameOfProduct;
+    }
+
+    public int hashCode() {
+        return Objects.hash(nameOfProduct);
+    }
+
+    public abstract String toString();
+
+    public boolean isSpecial() {
+        return false;
     }
 }
