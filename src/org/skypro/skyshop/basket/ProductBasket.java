@@ -11,7 +11,7 @@ public class ProductBasket {
 
     public void AddToBasket(Product pr) {
         boolean f = false;
-        for(int i=0; i<5;i++){
+        for (int i = 0; i < 5; i++) {
             if (basket[i] == null) {
                 basket[i] = pr;
                 f = true;
@@ -19,7 +19,7 @@ public class ProductBasket {
             }
         }
         if (!f) {
-            System.out.println("Невозможно добавить продукт");
+            System.out.println("Невозможно добавить продукт: " + pr.getNameOfProduct());
         }
 
     }
@@ -28,7 +28,7 @@ public class ProductBasket {
         int c = 0;
         for (int i = 0; i < 5; i++) {
             if (basket[i] != null) {
-                c += basket[i].getCost();
+                c += basket[i].getPrice();
             }
         }
         return c;
@@ -36,14 +36,19 @@ public class ProductBasket {
 
     public void WhatContainBasket() {
         int sum = ReturnCount();
+        int specialGoods = 0;
         if (sum == 0) {
             System.out.println("В корзине пусто!");
         } else {
             for (int i = 0; i < 5; i++) {
-                if(basket[i]!=null)
-                    System.out.println(basket[i].getNameOfProduct() + ":" + basket[i].getCost());
+                if (basket[i] != null) {
+                    System.out.println(basket[i]);
+                    if (basket[i].isSpecial() == true)
+                        specialGoods++;
+                }
             }
             System.out.println("Итого: " + sum);
+            System.out.println("Специальных товаров: " + specialGoods);
         }
     }
 
@@ -62,4 +67,5 @@ public class ProductBasket {
             basket[i] = null;
         }
     }
+
 }
