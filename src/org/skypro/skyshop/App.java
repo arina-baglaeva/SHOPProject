@@ -7,6 +7,7 @@ import org.skypro.skyshop.searchable.Searchable;
 import org.skypro.skyshop.simple.SimpleProduct;
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.searchable.SearchEngine;
+
 public class App {
     public static void main(String[] args) {
         SearchEngine arr = new SearchEngine(15);
@@ -61,16 +62,17 @@ public class App {
         Searchable[] f4 = arr.search("Традиц");
         printArr(f4);
     }
-    public static void printArr(Searchable[] res){
-        boolean f= false;
-        for(int i=0; i<res.length;i++){
-            if(res[i]!=null){
-                System.out.println((i+1)+ ". "+ res[i].getStringRepresentation());
-                f=true;
+
+    public static void printArr(Searchable[] res) {
+        boolean f = false;
+        for (int i = 0; i < res.length; i++) {
+            if (res[i] != null) {
+                System.out.println((i + 1) + ". " + res[i].getStringRepresentation());
+                f = true;
             }
 
         }
-        if(!f)
+        if (!f)
             System.out.println("НИЧего не найдено!");
 
     }

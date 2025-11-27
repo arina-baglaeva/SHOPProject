@@ -26,15 +26,16 @@ public abstract class Product implements Searchable {
     public boolean isSpecial() {
         return false;
     }
-    public String searchTerm(){
+
+    public String searchTerm() {
         return nameOfProduct;
     }
 
-    public String getOfTypeContent(){
+    public String getOfTypeContent() {
         return "PRODUCT";
     }
 
-    public String getOfNameObject(){
+    public String getOfNameObject() {
         return nameOfProduct;
     }
 }
