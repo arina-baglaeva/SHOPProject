@@ -13,7 +13,7 @@ public class App {
     public static void main(String[] args) {
         SearchEngine arr = new SearchEngine(15);
         try {
-            SimpleProduct pr1 = new SimpleProduct("Сыр", -209);
+            SimpleProduct pr1 = new SimpleProduct("Сырр", -209);
             FixPriceProduct pr2 = new FixPriceProduct("Колбаса");
             FixPriceProduct pr3 = new FixPriceProduct("Вино");
             DiscountedProduct pr4 = new DiscountedProduct("пудинг", 140);
