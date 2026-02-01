@@ -8,8 +8,11 @@ public abstract class Product implements Searchable {
     private final String nameOfProduct;
 
     public Product(String nameOfProduct) {
-
+        if (nameOfProduct.isBlank()) {
+            throw new IllegalArgumentException("Название продукта не может быть пустой строкой!");
+        }
         this.nameOfProduct = nameOfProduct;
+
     }
 
     public abstract int getPrice();

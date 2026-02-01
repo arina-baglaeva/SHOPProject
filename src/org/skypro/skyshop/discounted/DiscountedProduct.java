@@ -11,8 +11,13 @@ public class DiscountedProduct extends Product {
 
     public DiscountedProduct(String nameOfProducts, int basicPrice) {
         super(nameOfProducts);
+
+        int sale = r.nextInt(0, 100);
+        if (basicPrice < 0 || sale < 0 || sale > 100) {
+            throw new IllegalArgumentException("Базовая цена должна быть строго больше 0. Процент скидки должен быть числом в диапазоне от 0 до 100 включительно.");
+        }
         this.basicPrice = basicPrice;
-        this.sale = r.nextInt(0, 100);
+        this.sale = sale;
     }
 
     @Override

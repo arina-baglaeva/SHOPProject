@@ -37,4 +37,29 @@ public class SearchEngine {
             System.out.println("Нет мест в списке!");
         }
     }
+
+    public Searchable findBestMatch(String s) throws BestResultNotFound {
+        int[] counts = new int[arrOfAll.length];
+        int ind = 0;
+        int count = 0;
+        int mx = 0;
+        for (int i = 0; i < arrOfAll.length; i++) {
+            if (arrOfAll[i] != null) {
+                int ind_s = arrOfAll[i].searchTerm().indexOf(s, ind);
+                while (ind_s != -1) {
+                    count++;
+                    ind = ind_s + s.length();
+                    ind_s = arrOfAll[i].searchTerm().indexOf(s, ind);
+                }
+                counts[i] = count;
+                if (count > counts[mx]) mx = i;
+                count = 0;
+            }
+        }
+        if (counts[mx] == 0) {
+            throw new BestResultNotFound("Для запроса: " + s + " - не нашлось подходящей статьи.");
+        }
+        return arrOfAll[mx];
+
+    }
 }
