@@ -19,7 +19,7 @@ public class ProductBasket {
             }
         }
         if (!f) {
-            System.out.println("Невозможно добавить продукт: " + pr.getNameOfProduct());
+            System.out.println("Невозможно добавить в корзину продукт: " + pr.getNameOfProduct());
         }
 
     }
