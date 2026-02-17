@@ -9,11 +9,11 @@ public class SearchEngine {
         arrOfAll = new LinkedList<>();
     }
 
-    public List<Searchable> search(String s) {
-        List<Searchable> arr = new ArrayList<>();
+    public TreeMap<String, Searchable> search(String s) {
+        TreeMap<String, Searchable> arr = new TreeMap<>();
         for (Searchable searchable : arrOfAll) {
             if (searchable != null && searchable.searchTerm().toLowerCase().contains(s.toLowerCase())) {
-                arr.add(searchable);
+                arr.put(searchable.getOfNameObject(), searchable);
             }
         }
         System.out.println("Поиск по списку: ");
