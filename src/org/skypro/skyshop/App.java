@@ -3,44 +3,57 @@ package org.skypro.skyshop;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.discounted.DiscountedProduct;
 import org.skypro.skyshop.fixprice.FixPriceProduct;
+import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.searchable.BestResultNotFound;
 import org.skypro.skyshop.searchable.Searchable;
 import org.skypro.skyshop.simple.SimpleProduct;
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.searchable.SearchEngine;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class App {
     public static void main(String[] args) {
-        SearchEngine arr = new SearchEngine(15);
+        SearchEngine arr = new SearchEngine();
         try {
-            SimpleProduct pr1 = new SimpleProduct("Сырр", -209);
+            SimpleProduct pr1 = new SimpleProduct("Сыр", 209);
             FixPriceProduct pr2 = new FixPriceProduct("Колбаса");
             FixPriceProduct pr3 = new FixPriceProduct("Вино");
-            DiscountedProduct pr4 = new DiscountedProduct("пудинг", 140);
-            DiscountedProduct pr5 = new DiscountedProduct("Хлеб", 78);
+            DiscountedProduct pr4 = new DiscountedProduct("Пуддинг", 140);
+            DiscountedProduct pr5 = new DiscountedProduct("ПудДИНГ", 78);
             SimpleProduct pr6 = new SimpleProduct("ТОРТ", 700);
             ProductBasket basket = new ProductBasket();
-            arr.add(pr1);
-            arr.add(pr2);
-            arr.add(pr3);
-            arr.add(pr4);
-            arr.add(pr5);
-            arr.add(pr6);
-            basket.AddToBasket(pr1);
-            basket.AddToBasket(pr2);
-            basket.AddToBasket(pr3);
-            basket.AddToBasket(pr4);
-            basket.AddToBasket(pr5);
-            basket.AddToBasket(pr6);
-            basket.WhatContainBasket();
-            System.out.println("Стоимость корзины: " + basket.ReturnCount());
-            System.out.println("Поиск " + pr5.getNameOfProduct() + ": " + basket.FindProduct(pr5.getNameOfProduct()));
-            System.out.println("Поиск " + pr6.getNameOfProduct() + ": " + basket.FindProduct(pr6.getNameOfProduct()));
+            basket.add(pr1);
+            basket.add(pr2);
+            basket.add(pr3);
+            basket.add(pr4);
+            basket.add(pr5);
+            basket.add(pr6);
+            basket.whatContainBasket();
+            System.out.println("Стоимость корзины: " + basket.returnCount());
+            System.out.println("Поиск " + pr5.getNameOfProduct() + ": " + basket.findProduct(pr5.getNameOfProduct()));
+            System.out.println("Поиск " + pr6.getNameOfProduct() + ": " + basket.findProduct(pr6.getNameOfProduct()));
+            String prodDel = "Пуддинг";
+            System.out.println("Список удаленных продуктов по названию '" + prodDel + "' :");
+            List<Product> del = basket.deleteProduct(prodDel);
+            for (Product p : del) {
+                System.out.println(p);
+            }
+            basket.printBasket();
+            Iterator<Product> iterator = del.iterator();
+            System.out.println("Очищаем список удаленных продуктов. ");
+            while (iterator.hasNext()) {
+                iterator.next();
+                iterator.remove();
+            }
+            if (del.isEmpty())
+                System.out.println("Список пуст.");
             System.out.println("Очистка корзины: ");
-            basket.CleanBasket();
-            basket.WhatContainBasket();
-            System.out.println("Стоимость корзины: " + basket.ReturnCount());
-            System.out.println("Поиск " + pr1.getNameOfProduct() + ": " + basket.FindProduct(pr1.getNameOfProduct()));
+            basket.cleanBasket();
+            basket.whatContainBasket();
+            System.out.println("Стоимость корзины: " + basket.returnCount());
+            System.out.println("Поиск " + pr1.getNameOfProduct() + ": " + basket.findProduct(pr1.getNameOfProduct()));
 
         } catch (IllegalArgumentException ex) {
             System.err.println("Ошибка в создании продукта, некорректные данные: " + ex.getMessage());
@@ -58,16 +71,16 @@ public class App {
         arr.add(art4);
         arr.add(art5);
         System.out.println("'Сыр': ");
-        Searchable[] found = arr.search("Сыр");
+        List<Searchable> found = arr.search("Сыр");
         printArr(found);
         System.out.println("'Вино': ");
-        Searchable[] f2 = arr.search("Вино");
+        List<Searchable> f2 = arr.search("Вино");
         printArr(f2);
         System.out.println("'Хлеб': ");
-        Searchable[] f3 = arr.search("Хлеб");
+        List<Searchable> f3 = arr.search("Хлеб");
         printArr(f3);
         System.out.println("'Традиц': ");
-        Searchable[] f4 = arr.search("Традиц");
+        List<Searchable> f4 = arr.search("Традиц");
         printArr(f4);
         try {
             Searchable t = arr.findBestMatch("сыр");
@@ -87,14 +100,13 @@ public class App {
         }
     }
 
-    public static void printArr(Searchable[] res) {
+    public static void printArr(List<Searchable> res) {
         boolean f = false;
-        for (int i = 0; i < res.length; i++) {
-            if (res[i] != null) {
-                System.out.println((i + 1) + ". " + res[i].getStringRepresentation());
+        for (int i = 0; i < res.size(); i++) {
+            if (res.get(i) != null) {
+                System.out.println((i + 1) + ". " + res.get(i).getStringRepresentation());
                 f = true;
             }
-
         }
         if (!f)
             System.out.println("Ничего не найдено!");
