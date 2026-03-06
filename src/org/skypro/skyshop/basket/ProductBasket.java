@@ -6,24 +6,25 @@ import java.util.*;
 
 
 public class ProductBasket {
-    private List<Product> basket;
+    private Map<String, List<Product>> basket;
 
     public ProductBasket() {
-        basket = new LinkedList<>();
+        basket = new HashMap<>();
     }
 
     public int returnCount() {
         int c = 0;
-        for (Product product : basket) {
-            if (product != null) {
-                c += product.getPrice();
+        for (Map.Entry<String, List<Product>> product : basket.entrySet()) {
+            for (Product pr : product.getValue()) {
+                c += pr.getPrice();
+
             }
         }
         return c;
     }
 
     public void add(Product pr) {
-        basket.add(pr);
+        basket.computeIfAbsent(pr.getNameOfProduct(), k -> new ArrayList<>()).add(pr);
         System.out.println("Добавлен продукт: " + pr.getNameOfProduct());
     }
 
@@ -34,10 +35,10 @@ public class ProductBasket {
         if (sum == 0) {
             System.out.println("В корзине пусто!");
         } else {
-            for (Product product : basket) {
-                if (product != null) {
-                    System.out.println(product);
-                    if (product.isSpecial())
+            for (Map.Entry<String, List<Product>> product : basket.entrySet()) {
+                for (Product pr : product.getValue()) {
+                    System.out.println(pr);
+                    if (pr.isSpecial())
                         specialGoods++;
                 }
             }
@@ -47,41 +48,31 @@ public class ProductBasket {
     }
 
     public boolean findProduct(String name) {
-
-        for (Product product : basket) {
-            if (product != null && product.getNameOfProduct().equals(name)) {
-                return true;
+        for (Map.Entry<String, List<Product>> product : basket.entrySet()) {
+            for (Product pr : product.getValue()) {
+                if (pr.getNameOfProduct().equals(name)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     public List<Product> deleteProduct(String name) {
-        List<Product> delPr = new ArrayList<>();
-        Iterator<Product> iterator = basket.iterator();
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
-            if (Objects.equals(product.getNameOfProduct().toLowerCase(), name.toLowerCase())) {
-                delPr.add(product);
-                iterator.remove();
-            }
-        }
-        return delPr;
-
+        List<Product> delPr = basket.remove(name);
+        return delPr != null ? delPr : new ArrayList<>();
     }
 
     public void cleanBasket() {
-        Iterator<Product> iterator = basket.iterator();
-        while (iterator.hasNext()) {
-            iterator.next();
-            iterator.remove();
-        }
+        basket.clear();
     }
 
     public void printBasket() {
         System.out.println("Теперь в корзине находятся: ");
-        for (Product pr : basket) {
-            System.out.println(pr);
+        for (Map.Entry<String, List<Product>> product : basket.entrySet()) {
+            for (Product pr : product.getValue()) {
+                System.out.println(pr);
+            }
         }
     }
 }
