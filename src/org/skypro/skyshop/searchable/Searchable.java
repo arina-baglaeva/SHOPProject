@@ -8,6 +8,7 @@ public interface Searchable {
     String getOfNameObject();
 
     default String getStringRepresentation() {
-        return "Имя: " + getOfNameObject() + " Тип: " + getOfTypeContent();
+        return "Название: " + getOfNameObject() + " Тип: " + getOfTypeContent();
     }
+
 }

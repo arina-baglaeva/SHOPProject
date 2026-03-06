@@ -10,10 +10,7 @@ import org.skypro.skyshop.simple.SimpleProduct;
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.searchable.SearchEngine;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class App {
     public static void main(String[] args) {
@@ -73,16 +70,16 @@ public class App {
         arr.add(art4);
         arr.add(art5);
         System.out.println("'Сыр': ");
-        TreeMap<String, Searchable> found = arr.search("Сыр");
+        TreeSet<Searchable> found = arr.search("Сыр");
         printArr(found);
         System.out.println("'Вино': ");
-        TreeMap<String, Searchable> f2 = arr.search("Вино");
+        TreeSet<Searchable> f2 = arr.search("Вино");
         printArr(f2);
         System.out.println("'Хлеб': ");
-        TreeMap<String, Searchable> f3 = arr.search("Хлеб");
+        TreeSet<Searchable> f3 = arr.search("Хлеб");
         printArr(f3);
         System.out.println("'Традиц': ");
-        TreeMap<String, Searchable> f4 = arr.search("Традиц");
+        TreeSet<Searchable> f4 = arr.search("Традиц");
         printArr(f4);
         try {
             Searchable t = arr.findBestMatch("сыр");
@@ -102,12 +99,12 @@ public class App {
         }
     }
 
-    public static void printArr(TreeMap<String, Searchable> res) {
+    public static void printArr(TreeSet<Searchable> res) {
         boolean f = false;
         int c = 0;
-        for (Map.Entry<String, Searchable> i : res.entrySet()) {
-            if (i.getValue() != null) {
-                System.out.println((c + 1) + ". " + i.getValue().getStringRepresentation());
+        for (Searchable i : res) {
+            if (i != null) {
+                System.out.println((c + 1) + ". " + i.getStringRepresentation());
                 f = true;
             }
         }
