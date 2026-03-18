@@ -5,10 +5,10 @@ public interface Searchable {
 
     String getOfTypeContent();
 
-    String getOfNameObject();
+    String getName();
 
     default String getStringRepresentation() {
-        return "Название: " + getOfNameObject() + " Тип: " + getOfTypeContent();
+        return "Название: " + getName() + " Тип: " + getOfTypeContent();
     }
 
 }
