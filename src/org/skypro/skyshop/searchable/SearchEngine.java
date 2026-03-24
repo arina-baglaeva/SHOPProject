@@ -10,7 +10,7 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String s) {
-        Set<Searchable> arr = new TreeSet<>((Comparator) new MyComparator());
+        Set<Searchable> arr = new TreeSet<>( new MyComparator());
         for (Searchable searchable : arrOfAll) {
             if (searchable != null && searchable.searchTerm().toLowerCase().contains(s.toLowerCase())) {
                 arr.add(searchable);
@@ -51,7 +51,8 @@ public class SearchEngine {
         return bestMatch;
     }
 
-    private static class MyComparator {
+    private static class MyComparator implements Comparator<Searchable>{
+        @Override
         public int compare(Searchable o1, Searchable o2) {
             int lengthCompare = Integer.compare(o2.getName().length(), o1.getName().length());
             return lengthCompare == 0 ? o1.getName().compareTo(o2.getName()) : lengthCompare;
