@@ -21,11 +21,6 @@ public abstract class Product implements Searchable {
         return nameOfProduct;
     }
 
-
-    public int hashCode() {
-        return Objects.hash(nameOfProduct);
-    }
-
     public boolean isSpecial() {
         return false;
     }
@@ -40,5 +35,23 @@ public abstract class Product implements Searchable {
 
     public String getOfNameObject() {
         return nameOfProduct;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Product other = (Product) obj;
+        return Objects.equals(nameOfProduct, other.nameOfProduct);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nameOfProduct);
     }
 }

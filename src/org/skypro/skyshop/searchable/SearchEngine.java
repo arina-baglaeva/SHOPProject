@@ -1,21 +1,20 @@
 package org.skypro.skyshop.searchable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
-    public List<Searchable> arrOfAll;
+    public HashSet<Searchable> arrOfAll;
 
     public SearchEngine() {
-        arrOfAll = new LinkedList<>();
+        arrOfAll = new HashSet<>();
     }
 
-    public TreeMap<String, Searchable> search(String s) {
-        TreeMap<String, Searchable> arr = new TreeMap<>();
-        for (Searchable searchable : arrOfAll) {
-            if (searchable != null && searchable.searchTerm().toLowerCase().contains(s.toLowerCase())) {
-                arr.put(searchable.getOfNameObject(), searchable);
-            }
-        }
+    public TreeSet<Searchable> search(String s) {
+        TreeSet<Searchable> arr = arrOfAll.stream().
+                filter(searchable -> (searchable != null) && searchable.searchTerm().toLowerCase().contains(s.toLowerCase())).
+                collect(Collectors.toCollection(() -> new TreeSet<>(new SortedBySize())));
+
         System.out.println("Поиск по списку: ");
         return arr;
     }
@@ -26,27 +25,41 @@ public class SearchEngine {
     }
 
     public Searchable findBestMatch(String s) throws BestResultNotFound {
-        int[] counts = new int[arrOfAll.size()];
-        int ind = 0;
-        int count = 0;
-        int mx = 0;
-        for (int i = 0; i < arrOfAll.size(); i++) {
-            if (arrOfAll.get(i) != null) {
-                int ind_s = arrOfAll.get(i).searchTerm().indexOf(s, ind);
+
+        Searchable bestMatch = null;
+        int maxCount = 0;
+        for (Searchable i : arrOfAll) {
+            if (i != null) {
+                int count = 0;
+                int ind = 0;
+                int ind_s = i.searchTerm().toLowerCase().indexOf(s, ind);
                 while (ind_s != -1) {
                     count++;
                     ind = ind_s + s.length();
-                    ind_s = arrOfAll.get(i).searchTerm().indexOf(s, ind);
+                    ind_s = i.searchTerm().toLowerCase().indexOf(s, ind);
                 }
-                counts[i] = count;
-                if (count > counts[mx]) mx = i;
-                count = 0;
+                if (count > maxCount) {
+                    maxCount = count;
+                    bestMatch = i;
+                }
             }
         }
-        if (counts[mx] == 0) {
+        if (maxCount == 0) {
             throw new BestResultNotFound("Для запроса: " + s + " - не нашлось подходящей статьи.");
         }
-        return arrOfAll.get(mx);
+        return bestMatch;
+    }
 
+    private static class SortedBySize implements Comparator<Searchable> {
+
+        @Override
+        public int compare(Searchable o1, Searchable o2) {
+            int lengthCompare = Integer.compare(o2.getOfNameObject().length(), o1.getOfNameObject().length());
+            if (lengthCompare == 0) {
+                return o1.getOfNameObject().compareTo(o2.getOfNameObject());
+            }
+            return lengthCompare;
+
+        }
     }
 }
