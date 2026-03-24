@@ -29,7 +29,7 @@ public class Article implements Searchable {
     }
 
     @Override
-    public String getOfNameObject() {
+    public String getName() {
         return nameOfArticle;
     }
 

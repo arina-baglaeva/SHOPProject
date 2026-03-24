@@ -70,16 +70,16 @@ public class App {
         arr.add(art4);
         arr.add(art5);
         System.out.println("'Сыр': ");
-        TreeSet<Searchable> found = arr.search("Сыр");
+        Set<Searchable> found = arr.search("Сыр");
         printArr(found);
         System.out.println("'Вино': ");
-        TreeSet<Searchable> f2 = arr.search("Вино");
+        Set<Searchable> f2 = arr.search("Вино");
         printArr(f2);
         System.out.println("'Хлеб': ");
-        TreeSet<Searchable> f3 = arr.search("Хлеб");
+        Set<Searchable> f3 = arr.search("Хлеб");
         printArr(f3);
         System.out.println("'Традиц': ");
-        TreeSet<Searchable> f4 = arr.search("Традиц");
+        Set<Searchable> f4 = arr.search("Традиц");
         printArr(f4);
         try {
             Searchable t = arr.findBestMatch("сыр");
@@ -99,7 +99,7 @@ public class App {
         }
     }
 
-    public static void printArr(TreeSet<Searchable> res) {
+    public static void printArr(Set<Searchable> res) {
         boolean f = false;
         int c = 0;
         for (Searchable i : res) {

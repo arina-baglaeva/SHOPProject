@@ -4,24 +4,26 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SearchEngine {
-    public HashSet<Searchable> arrOfAll;
+    public Set<Searchable> arrOfAll;
 
     public SearchEngine() {
         arrOfAll = new HashSet<>();
     }
 
-    public TreeSet<Searchable> search(String s) {
-        TreeSet<Searchable> arr = arrOfAll.stream().
-                filter(searchable -> (searchable != null) && searchable.searchTerm().toLowerCase().contains(s.toLowerCase())).
-                collect(Collectors.toCollection(() -> new TreeSet<>(new SortedBySize())));
-
+    public Set<Searchable> search(String s) {
+        Set<Searchable> arr = new TreeSet<>( new MyComparator());
+        for (Searchable searchable : arrOfAll) {
+            if (searchable != null && searchable.searchTerm().toLowerCase().contains(s.toLowerCase())) {
+                arr.add(searchable);
+            }
+        }
         System.out.println("Поиск по списку: ");
         return arr;
     }
 
     public void add(Searchable obj) {
         arrOfAll.add(obj);
-        System.out.println("Добавлено в список: " + obj.getOfNameObject());
+        System.out.println("Добавлено в список: " + obj.getName());
     }
 
     public Searchable findBestMatch(String s) throws BestResultNotFound {
@@ -50,15 +52,11 @@ public class SearchEngine {
         return bestMatch;
     }
 
-    private static class SortedBySize implements Comparator<Searchable> {
-
+    private static class MyComparator implements Comparator<Searchable>{
         @Override
         public int compare(Searchable o1, Searchable o2) {
-            int lengthCompare = Integer.compare(o2.getOfNameObject().length(), o1.getOfNameObject().length());
-            if (lengthCompare == 0) {
-                return o1.getOfNameObject().compareTo(o2.getOfNameObject());
-            }
-            return lengthCompare;
+            int lengthCompare = Integer.compare(o2.getName().length(), o1.getName().length());
+            return lengthCompare == 0 ? o1.getName().compareTo(o2.getName()) : lengthCompare;
 
         }
     }
