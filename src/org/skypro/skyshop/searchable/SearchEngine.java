@@ -1,6 +1,7 @@
 package org.skypro.skyshop.searchable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
     public Set<Searchable> arrOfAll;
