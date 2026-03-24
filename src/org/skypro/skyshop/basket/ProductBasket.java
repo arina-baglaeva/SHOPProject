@@ -4,6 +4,7 @@ import org.skypro.skyshop.product.Product;
 
 import java.util.*;
 
+
 public class ProductBasket {
     private Map<String, List<Product>> basket;
 
@@ -11,11 +12,15 @@ public class ProductBasket {
         basket = new HashMap<>();
     }
 
-    public long returnCount() {
-        long total = basket.values().
-                stream().flatMap(Collection::stream).
-                mapToInt(Product::getPrice).sum();
-        return total;
+    public int returnCount() {
+        int c = 0;
+        for (Map.Entry<String, List<Product>> product : basket.entrySet()) {
+            for (Product pr : product.getValue()) {
+                c += pr.getPrice();
+
+            }
+        }
+        return c;
     }
 
     public void add(Product pr) {
@@ -25,26 +30,32 @@ public class ProductBasket {
 
 
     public void whatContainBasket() {
-        long sum = returnCount();
+        int sum = returnCount();
+        int specialGoods = 0;
         if (sum == 0) {
             System.out.println("В корзине пусто!");
         } else {
-            basket.values().stream().flatMap(Collection::stream).
-                    forEach(System.out::println);
+            for (Map.Entry<String, List<Product>> product : basket.entrySet()) {
+                for (Product pr : product.getValue()) {
+                    System.out.println(pr);
+                    if (pr.isSpecial())
+                        specialGoods++;
+                }
+            }
             System.out.println("Итого: " + sum);
-            System.out.println("Специальных товаров: " + getSpecialCount());
+            System.out.println("Специальных товаров: " + specialGoods);
         }
     }
 
-    private long getSpecialCount() {
-        long specialGoods = basket.values().stream().flatMap(Collection::stream).
-                filter(Product::isSpecial).count();
-        return specialGoods;
-    }
-
     public boolean findProduct(String name) {
-        return basket.values().stream().flatMap(Collection::stream).
-                anyMatch(pr -> pr.getNameOfProduct().equals(name));
+        for (Map.Entry<String, List<Product>> product : basket.entrySet()) {
+            for (Product pr : product.getValue()) {
+                if (pr.getNameOfProduct().equals(name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public List<Product> deleteProduct(String name) {
@@ -58,6 +69,10 @@ public class ProductBasket {
 
     public void printBasket() {
         System.out.println("Теперь в корзине находятся: ");
-        basket.values().stream().flatMap(Collection::stream).forEach(System.out::println);
+        for (Map.Entry<String, List<Product>> product : basket.entrySet()) {
+            for (Product pr : product.getValue()) {
+                System.out.println(pr);
+            }
+        }
     }
 }
